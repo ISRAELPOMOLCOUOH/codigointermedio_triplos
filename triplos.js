@@ -1,13 +1,39 @@
- //autor:Israel Pomol Couoh
+        
+        //autor:Israel Pomol Couoh
         //formas: 2+5*y - a/a+b*b - (a+2)/3+b - (a+2)/(3-b) - 2*y-((4*y)+z)
-        var cadenaOriginal = "2*y-((4*y)+z)";
-        var cadenaPosfija = "";
-        //var pila = new Array();
-       
+        triplos();
 
-        cadenaPosfija = convertirPosfija(cadenaOriginal);
 
-        document.write(cadenaPosfija);
+        function triplos(){
+            var cadenaOriginal = "2*y-((4*y)+z)";
+            var cadenaPosfija = "";
+            var val1 = "",val2 = "",op ="",n = 0;//variables en donde se almacenara los operadores,el operando y que posicion tiene t
+            cadenaPosfija = convertirPosfija(cadenaOriginal);//se almacena la cadena ya convertida en posfija
+            document.write(cadenaPosfija);
+            var pilaResultados = new Array();//pila en donde se almacenara los resultados de las simplificaciones de las operaciones
+            var pilaFinal = new Array();//pila en donde se almacenara las expresiones de cada operacion
+            for(var i=0; i<cadenaPosfija.length;i++){
+                if(operador(cadenaPosfija.charAt(i))){//cuando detecta que es un operador realiza una operacion con dos caracteres dentro de la pilas
+                    val1 = pilaResultados.pop();
+                    val2 = pilaResultados.pop();
+                    op = cadenaPosfija.charAt(i);
+                    pilaFinal.push(simplificar(val1,val2,op,n));//se agrega la expresion
+                    pilaResultados.push("t"+n);//se agrega la expresion simplificada a la pila como t0,etc
+                    n++;
+                }else{
+                    pilaResultados.push(cadenaPosfija.charAt(i));
+                   
+                }
+            }
+            pilaFinal.push("<br/>"+"X = "+ pilaResultados.pop());//se quita el ultimo valor simplificado y se agrega a la pila final
+
+        }
+
+        function simplificar(valor1,valor2,operador,n){//simplifica la operacion posfija en t1,t2,etc..
+            var sim = "";
+            sim = "<br/>"+"t" + n + " = "+ valor2 + operador + valor1; //se almacena la operacion ..ejemplo : sim = t0 = a*b
+            return sim;
+        }
 
 
 
